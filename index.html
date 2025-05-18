@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="uk">
 <head>
   <meta charset="UTF-8" />
@@ -28,3 +28,74 @@
   </div>
 </body>
 </html>
+-->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Генерація Excel-каталогу</title>
+  <style>
+    body { font-family: sans-serif; background: #f0f0f0; padding: 20px; }
+    .form-box { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+    input[type="file"] { width: 100%; margin-bottom: 15px; }
+    button { width: 100%; padding: 10px; font-size: 16px; background: #007BFF; color: white; border: none; border-radius: 5px; }
+    button:hover { background: #0056b3; }
+    .message { text-align: center; margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <h2>Генерація Excel-каталогу</h2>
+    <form id="catalogForm" enctype="multipart/form-data">
+      <label>Excel-файл (.xlsx):</label>
+      <input type="file" name="excel" id="excel" accept=".xlsx" required>
+
+      <label>Зображення (у порядку, як у Excel):</label>
+      <input type="file" name="images" id="images" multiple accept="image/*" required>
+
+      <button type="submit">Згенерувати Excel</button>
+    </form>
+    <div class="message" id="status"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('catalogForm');
+    const statusDiv = document.getElementById('status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusDiv.textContent = '⏳ Завантаження файлів...';
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch('https://excel-catalog-render-ready.onrender.com/generate_catalog', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          statusDiv.textContent = '❌ Помилка на сервері. Спробуйте ще раз.';
+          return;
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'catalog_ready.xlsx';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        statusDiv.textContent = '✅ Успішно згенеровано!';
+      } catch (error) {
+        statusDiv.textContent = '❗ Немає звʼязку з сервером. Спробуйте пізніше або перевірте інтернет.';
+      }
+    });
+  </script>
+</body>
+</html>
+
