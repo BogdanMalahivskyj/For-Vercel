@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Генерація Excel-каталогу</title>
+  <style>
+    body { font-family: sans-serif; background: #f0f0f0; padding: 20px; }
+    .form-box { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+    input[type="file"] { width: 100%; margin-bottom: 15px; }
+    button { width: 100%; padding: 10px; font-size: 16px; background: #007BFF; color: white; border: none; border-radius: 5px; }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <h2>Генерація Excel-каталогу</h2>
+    <form action="https://excel_catalog_render_ready.onrender.com/generate_catalog" method="POST" enctype="multipart/form-data">
+      <label>Excel-файл (.xlsx):</label>
+      <input type="file" name="excel" accept=".xlsx" required>
+
+      <label>Зображення (у порядку, як у Excel):</label>
+      <input type="file" name="images" multiple accept="image/*" required>
+
+      <button type="submit">Згенерувати Excel</button>
+    </form>
+  </div>
+</body>
+</html>
