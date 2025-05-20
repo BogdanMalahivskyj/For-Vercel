@@ -71,7 +71,7 @@
       const formData = new FormData(form);
 
       try {
-        const response = await fetch('https://excel-catalog-render-ready.onrender.com/generate_catalog', {
+        const response = await fetch('https://excel-catalog-fastapi-production.up.railway.app/generate_catalog', {
           method: 'POST',
           body: formData
         });
